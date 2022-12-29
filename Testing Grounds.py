@@ -37,7 +37,7 @@ for i in Databases:
                 for i in range(len(list(Databases.keys())[0])-len(eval(User_Input))):
                     b.append('')
                 Databases[cd].append(b)
-"""
+
 
 elif User_Input.lower().startswith("row add"):
 
@@ -69,3 +69,4 @@ else:
 
     else:
         Databases[cd].append(eval(User_Input))
+        """

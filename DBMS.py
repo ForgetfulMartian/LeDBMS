@@ -97,6 +97,7 @@ while Exit == "No":
 
         else:
             if s > len(q):
+
                 diff = s - len(q)
                 for i in range(diff):
                     q.append('')
@@ -107,6 +108,20 @@ while Exit == "No":
 
                     Databases[cd][b].append(j)
                     b += 1
+
+            elif s < len(q):
+
+                a = input("Length of Row is bigger than First Row, To trim enter T or anything else to continue "
+                          "without adding Row:")
+
+                if a.lower() == 't':
+
+                    for i in range(s):
+                        Databases[cd][i].append(q[i])
+
+            else:
+                for i in range(s):
+                    Databases[cd][i].append(q[i])
 
     # Change cd
 
