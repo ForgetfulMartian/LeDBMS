@@ -88,12 +88,25 @@ while Exit == "No":
 
     elif User_Input.lower().startswith("add row"):
 
-        User_Input = User_Input[8:]
-
-        if len(list(Databases[cd])) == 0:
-            for i in User_Input:
+        q = eval(User_Input[8:])
+        s = len((Databases[cd]))
+        if s == 0:
+            for i in q:
                 a = [i]
-            Databases[cd].append(a)
+                Databases[cd].append(a)
+
+        else:
+            if s > len(q):
+                diff = s - len(q)
+                for i in range(diff):
+                    q.append('')
+
+                b = 0
+
+                for j in q:
+
+                    Databases[cd][b].append(j)
+                    b += 1
 
     # Change cd
 
@@ -273,6 +286,11 @@ while Exit == "No":
 
                     Databases[b] = sheet
                     cd = b
+
+            else :
+
+                Databases[a[-1]] = sheet
+                cd = a[-1]
 
         # Left
 
