@@ -203,6 +203,7 @@ while Exit == "No":
                     sheet3[i] = sheet1[i] + sheet2[i]
 
             # Bloc for post
+
             sheet = []
 
             for i in sheet3:
@@ -213,6 +214,7 @@ while Exit == "No":
             print(sheet)
 
             # Creating new sheet
+
             if a[-1] in Databases:
 
                 b = input("Datasheet with same name already exists, enter Y to continue by replacing it with new sheet"
@@ -227,6 +229,11 @@ while Exit == "No":
 
                     Databases[b] = sheet
                     cd = b
+
+            else:
+
+                Databases[a[-1]] = sheet
+                cd = a[-1]
 
         # Union
 
@@ -262,6 +269,7 @@ while Exit == "No":
                     sheet3[q] = l2
 
             # Bloc for post
+
             sheet = []
 
             for i in sheet3:
@@ -270,6 +278,7 @@ while Exit == "No":
                 sheet.append(sheet3[i])
 
             # Creating new sheet
+
             if a[-1] in Databases:
 
                 b = input(
@@ -287,7 +296,7 @@ while Exit == "No":
                     Databases[b] = sheet
                     cd = b
 
-            else :
+            else:
 
                 Databases[a[-1]] = sheet
                 cd = a[-1]
@@ -314,6 +323,7 @@ while Exit == "No":
 
 
             # Bloc for post
+
             sheet = []
 
             for i in sheet3:
@@ -322,6 +332,7 @@ while Exit == "No":
                 sheet.append(sheet3[i])
 
             # Creating new sheet
+
             if a[-1] in Databases:
 
                 b = input(
@@ -338,6 +349,11 @@ while Exit == "No":
 
                     Databases[b] = sheet
                     cd = b
+
+            else:
+
+                Databases[a[-1]] = sheet
+                cd = a[-1]
 
         # Right
 
@@ -360,6 +376,7 @@ while Exit == "No":
                     sheet3[q] = l2
 
             # Bloc for post
+
             sheet = []
 
             for i in sheet3:
@@ -367,6 +384,7 @@ while Exit == "No":
                 sheet.append(sheet3[i])
 
             # Creating new sheet
+
             if a[-1] in Databases:
 
                 b = input(
@@ -383,6 +401,11 @@ while Exit == "No":
 
                     Databases[b] = sheet
                     cd = b
+
+            else:
+
+                Databases[a[-1]] = sheet
+                cd = a[-1]
 
     # Saving the Databases
     elif User_Input.lower() == 'save':
