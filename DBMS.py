@@ -1,6 +1,7 @@
 import os
 import time
 from tabulate import tabulate
+from matplotlib import pyplot as plt
 
 os.chdir("Databases")
 
@@ -16,7 +17,7 @@ while Exit == "No":
     if cls:
         print("To get documentation for a command use: Help <command>")
         print("Evaluate mathematical expressions like \"2-324+2134\" just by: EVAL <expression>")
-        print("To Create a datasheet: CREATE SHEET <Name>")
+        print("To add a datasheet: ADD SHEET <Name>")
         print("To change current datasheet: CHANGE TO <Name>")
         print("To add column: COLUMN ADD <[Column Name, Value 1, Value 2, Value 3]>")
         print("To Join two datasheets: Join <sheet1> <sheet2> <Join Type> <New Sheet name>")
@@ -39,20 +40,20 @@ while Exit == "No":
 
     # Create Sheet
 
-    elif User_Input[:12].lower() == "create sheet":
+    elif User_Input.lower().startswith("add sheet"):
 
-        if User_Input[13:] not in Databases:
+        if User_Input[10:] not in Databases:
 
-            Databases[User_Input[13:]] = []
-            cd = User_Input[13:]
+            Databases[User_Input[10:]] = []
+            cd = User_Input[10:]
 
         else:
 
-            print("Sheet with name", User_Input[13:], 'exists, change current sheet to', User_Input[13:], '?')
+            print("Sheet with name", User_Input[13:], 'exists, change current sheet to', User_Input[10:], '?')
             Y_N = input("Y/N:").lower()
 
             if Y_N.lower() == "y":
-                cd = User_Input[13:]
+                cd = User_Input[10:]
 
     # Create Column
 
@@ -192,6 +193,7 @@ while Exit == "No":
         print(Databases)
 
     # Join
+
     elif User_Input.lower().startswith("join"):
 
         a = User_Input.split()
@@ -423,6 +425,7 @@ while Exit == "No":
                 cd = a[-1]
 
     # Saving the Databases
+
     elif User_Input.lower() == 'save':
         for i in Databases:
             f = open(i + '.csv', 'w')
@@ -445,6 +448,7 @@ while Exit == "No":
 
 
     # Help
+
     elif User_Input.lower().startswith("help"):
 
         if User_Input[5:].lower() == "print":
@@ -491,6 +495,33 @@ while Exit == "No":
             "tsv"
             ''')
 
-print(Databases)
+    # Bar Plot
+
+    elif User_Input.lower().startswith('scatter plot'):
+        a = User_Input.split()
+
+        sheet1 = {}
+
+        x = []
+        y = []
+
+        for i in Databases[cd]:
+            sheet1[i[0]] = i[1:]
+
+        if a[2] and a[3] in sheet1:
+
+            x = x + sheet1[a[2]]
+            y = y + sheet1[a[3]]
+
+        # Function to plot the bar
+
+        plt.bar(x, y)
+        plt.xlabel(a[2])
+        plt.ylabel(a[3])
+
+        # function to show the plot
+
+        plt.show()
+
 time.sleep(50)
 
