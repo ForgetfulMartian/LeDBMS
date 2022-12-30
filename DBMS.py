@@ -497,7 +497,7 @@ while Exit == "No":
 
     # Bar Plot
 
-    elif User_Input.lower().startswith('bar plot'):
+    elif User_Input.lower().startswith('scatter plot'):
         a = User_Input.split()
 
         sheet1 = {}
