@@ -1,10 +1,10 @@
 import pyautogui
 import time
 
-time.sleep(3)
+time.sleep(2)
 pyautogui.typewrite("Bababoi")
 pyautogui.press('enter')
-time.sleep(3)
+time.sleep(2)
 pyautogui.typewrite("Add sheet Sheet1")
 pyautogui.press('enter')
 pyautogui.typewrite("Add column ['Roll_No',1, 2, 3, 4]")
@@ -22,5 +22,9 @@ pyautogui.press('enter')
 pyautogui.typewrite("Add column ['Marks', 27, 45, 59]")
 pyautogui.press('enter')
 time.sleep(1)
-pyautgui.typewrite("Join Sheet1 Sheet2 Union Sheet3")
+pyautogui.typewrite("Join Sheet1 Sheet2 Union Sheet3")
+pyautogui.press('enter')
+pyautogui.typewrite('plot color g')
+pyautogui.press('enter')
+pyautogui.typewrite("barh plot Name Marks")
 pyautogui.press('enter')

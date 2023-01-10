@@ -4,7 +4,6 @@ from matplotlib import pyplot as plt
 
 import os
 
-
 Dir = input("Directory:")
 Dir_check = os.path.isdir(Dir)
 
@@ -19,7 +18,7 @@ else:
 Databases = {}
 Exit = "No"
 cls = "True"
-
+col = "b"
 cd: str = ""
 
 while Exit == "No":
@@ -32,7 +31,7 @@ while Exit == "No":
         print("To change current datasheet: CHANGE TO <Name>")
         print("To add column: COLUMN ADD <[Column Name, Value 1, Value 2, Value 3]>")
         print("To Join two datasheets: Join <sheet1> <sheet2> <Join Type> <New Sheet name>")
-        print("Sum of integral column: SUM <Column Name>")
+        print("Sum of integers/floats in column: SUM <Column Name>")
         print("To show current  datasheet's name: CD")
         print("To Exit enter exit")
         print("To Clear Screen enter cls")
@@ -89,7 +88,7 @@ while Exit == "No":
 
             elif len(eval(User_Input)) < len(list(Databases[cd][0])):
                 b = eval(User_Input)
-                for i in range(len(list(Databases[cd][0]))-len(eval(User_Input))):
+                for i in range(len(list(Databases[cd][0])) - len(eval(User_Input))):
                     b.append('')
                 Databases[cd].append(b)
 
@@ -117,7 +116,6 @@ while Exit == "No":
                 b = 0
 
                 for j in q:
-
                     Databases[cd][b].append(j)
                     b += 1
 
@@ -153,12 +151,17 @@ while Exit == "No":
     # Sum of column
 
     elif User_Input[:3].lower() == "sum":
-
+        print(cd)
         for i in Databases[cd]:
 
             if i[0] == User_Input[4:]:
-                print(i[1:])
-                print(sum(i[1:]))
+                print(i)
+                a = 0
+                for j in i:
+                    if type(j) == int or type(j) == float:
+                        a += j
+                        print(a)
+                print(a)
 
     # Exit
 
@@ -227,7 +230,6 @@ while Exit == "No":
             for i in sheet1:
 
                 if i in sheet2:
-
                     sheet3[i] = sheet1[i] + sheet2[i]
 
             # Bloc for post
@@ -290,7 +292,6 @@ while Exit == "No":
                     l2 = []
 
                     for j in range(len(sheet1[Ind])):
-
                         l2.append("")
 
                     l2 = l2 + sheet2[q]
@@ -301,7 +302,6 @@ while Exit == "No":
             sheet = []
 
             for i in sheet3:
-
                 sheet3[i].insert(0, i)
                 sheet.append(sheet3[i])
 
@@ -349,13 +349,11 @@ while Exit == "No":
 
                     sheet3[i] = l1
 
-
             # Bloc for post
 
             sheet = []
 
             for i in sheet3:
-
                 sheet3[i].insert(0, i)
                 sheet.append(sheet3[i])
 
@@ -466,53 +464,13 @@ while Exit == "No":
         q.write(d)
 
 
-    # Help
 
-    elif User_Input.lower().startswith("help"):
 
-        if User_Input[5:].lower() == "print":
-            print("Use print command to display your datasheet in tabular form, in various different possible formats:")
-            print("syntax:")
-            print("print <format>")
-            print("Valid values for format are:")
-            print(''' 
-            "plain"
-            "simple"
-            "github"
-            "grid"
-            "simple_grid"
-            "rounded_grid"
-            "heavy_grid"
-            "mixed_grid"
-            "double_grid"
-            "fancy_grid"
-            "outline"
-            "simple_outline"
-            "rounded_outline"
-            "heavy_outline"
-            "mixed_outline"
-            "double_outline"
-            "fancy_outline"
-            "pipe"
-            "orgtbl"
-            "asciidoc"
-            "jira"
-            "presto"
-            "pretty"
-            "psql"
-            "rst"
-            "mediawiki"
-            "moinmoin"
-            "youtrack"
-            "html"
-            "unsafehtml"
-            "latex"
-            "latex_raw"
-            "latex_booktabs"
-            "latex_longtable"
-            "textile"
-            "tsv"
-            ''')
+    # Plot Colour
+
+    if User_Input.lower().startswith("plot color"):
+        if len(User_Input.split()) > 2:
+            col = User_Input.split()[2]
 
     # Bar Plot
 
@@ -528,18 +486,115 @@ while Exit == "No":
             sheet1[i[0]] = i[1:]
 
         if a[2] and a[3] in sheet1:
-
             x = x + sheet1[a[2]]
             y = y + sheet1[a[3]]
 
         # Function to plot the bar
 
-        plt.bar(x, y)
+        xax = []
+        yax = []
+        non_int = 0
+
+        for k in range(0, len(y)):
+            if type(y[k]) == int or type(y[k]) == float:
+                yax.append(y[k])
+                xax.append(x[k])
+            else:
+                non_int += 1
+
+        print(non_int, "non-numerical values were not plotted")
+
+        plt.bar(xax, yax, color=col)
         plt.xlabel(a[2])
         plt.ylabel(a[3])
+
+
+    # Horizontal Bar Plot
+
+    elif User_Input.lower().startswith('barh plot'):
+        a = User_Input.split()
+
+        sheet1 = {}
+
+        x = []
+        y = []
+
+        for i in Databases[cd]:
+            sheet1[i[0]] = i[1:]
+
+        if a[2] and a[3] in sheet1:
+            x = x + sheet1[a[2]]
+            y = y + sheet1[a[3]]
+
+        # Function to plot the bar
+
+        xax = []
+        yax = []
+        non_int = 0
+
+        for k in range(0, len(y)):
+            if type(y[k]) == int or type(y[k]) == float:
+                yax.append(x[k])
+                xax.append(y[k])
+            else:
+                non_int += 1
+
+        print(non_int, "non-numerical values were not plotted")
+
+        plt.barh(yax, xax, color=col)
+        plt.xlabel(a[3])
+        plt.ylabel(a[2])
 
         # function to show the plot
 
         plt.show()
+
+        # Help
+
+    elif User_Input.lower().startswith("help"):
+
+        if User_Input[5:].lower() == "print":
+            print("Use print command to display your datasheet in tabular form, in various different possible formats:")
+            print("syntax:")
+            print("print <format>")
+            print("Valid values for format are:")
+            print(''' 
+                    "plain"
+                    "simple"
+                    "github"
+                    "grid"
+                    "simple_grid"
+                    "rounded_grid"
+                    "heavy_grid"
+                    "mixed_grid"
+                    "double_grid"
+                    "fancy_grid"
+                    "outline"
+                    "simple_outline"
+                    "rounded_outline"
+                    "heavy_outline"
+                    "mixed_outline"
+                    "double_outline"
+                    "fancy_outline"
+                    "pipe"
+                    "orgtbl"
+                    "asciidoc"
+                    "jira"
+                    "presto"
+                    "pretty"
+                    "psql"
+                    "rst"
+                    "mediawiki"
+                    "moinmoin"
+                    "youtrack"
+                    "html"
+                    "unsafehtml"
+                    "latex"
+                    "latex_raw"
+                    "latex_booktabs"
+                    "latex_longtable"
+                    "textile"
+                    "tsv"
+                    ''')
 
 time.sleep(50)
