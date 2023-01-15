@@ -151,17 +151,46 @@ while Exit == "No":
     # Sum of column
 
     elif User_Input[:3].lower() == "sum":
-        print(cd)
+
         for i in Databases[cd]:
 
             if i[0] == User_Input[4:]:
-                print(i)
+                non_int = 0
                 a = 0
+
                 for j in i:
                     if type(j) == int or type(j) == float:
                         a += j
-                        print(a)
-                print(a)
+
+                    else:
+                        non_int += 1
+                print('Sum:', a)
+                print(non_int, 'non-numeric values were not added')
+
+    # Average
+
+    elif User_Input.lower().startswith("average") or User_Input.lower().startswith("avg"):
+
+        for i in Databases[cd]:
+
+            if i[0] == User_Input[4:]:
+
+                non_int = 0
+                a = 0
+                count = 0
+
+                for j in i:
+
+                    if type(j) == int or type(j) == float:
+                        a += j
+
+                        count += 1
+                    else:
+                        non_int += 1
+
+                print('Avg:', a/count)
+                print(non_int, 'non-numeric values were not used')
+
 
     # Exit
 
@@ -433,38 +462,56 @@ while Exit == "No":
                 Databases[a[-1]] = sheet
                 cd = a[-1]
 
-    # Saving the Databases
 
-    elif User_Input.lower() == 'save':
-        for i in Databases:
-            f = open(i + '.csv', 'w')
+    elif User_Input.lower().startswith("search all"):
 
-            for j in Databases[i]:
+        value = eval(User_Input[11:])
+        search_result = []
 
-                a = ''
-                b = 0
-                for k in j:
+        for sheet_name, sheet in Databases.items():
 
-                    if b == 0:
+            for col in sheet:
+                a = 0
 
-                        a = a + str(k)
+                for b in col:
 
-                    else:
+                    a += 1
+                    if value == b:
+                        search_result.append((sheet_name, col[0], a))
 
-                        a = a + ',' + str(k)
-                    b += 1
-                f.write(a + "\n")
+        print(search_result)
 
-        q = open("Datasheets.txt", 'w')
-        d = ''
-        for k in Databases:
-            d = d + k + '\n'
+    # Saving the Databases in csv format
 
-        print(d)
-        q.write(d)
+    elif User_Input.lower() == 'save csv':
 
+        with open('sheet_names.txt', 'w') as sheet_file:
 
+            for sheet_name in Databases:
 
+                sheet_file.write(sheet_name + '\n')
+
+                # create a new csv file for each sheet
+
+                with open(sheet_name + '.csv', 'w') as f:
+
+                    for j in Databases[sheet_name]:
+
+                        a = ''
+                        b = 0
+                        for k in j:
+
+                            if b == 0:
+
+                                a = a + str(k)
+
+                            else:
+
+                                a = a + ',' + str(k)
+                            b += 1
+                        f.write(a + "\n")
+
+        print("exported successfully")
 
     # Plot Colour
 
