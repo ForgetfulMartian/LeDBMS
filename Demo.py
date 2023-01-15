@@ -46,4 +46,3 @@ pyautogui.typewrite("Scatter plot Name Marks")
 pyautogui.press('enter')
 pyautogui.typewrite("Pie plot Name Marks")
 pyautogui.press('enter')
-

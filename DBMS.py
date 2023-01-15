@@ -167,6 +167,37 @@ while Exit == "No":
                 print('Sum:', a)
                 print(non_int, 'non-numeric values were not added')
 
+    # Min
+
+    elif User_Input[:3].lower() == "min":
+
+        for i in Databases[cd]:
+
+            if i[0] == User_Input[4:]:
+
+                a = []
+
+                for j in i:
+                    if type(j) == int or type(j) == float:
+                        a.append(j)
+
+        print("Min Values:", min(a))
+
+    # Max
+    elif User_Input[:3].lower() == "max":
+
+        for i in Databases[cd]:
+
+            if i[0] == User_Input[4:]:
+
+                a = []
+
+                for j in i:
+                    if type(j) == int or type(j) == float:
+                        a.append(j)
+
+        print("Max Value:", max(a))
+
     # Average
 
     elif User_Input.lower().startswith("average") or User_Input.lower().startswith("avg"):
@@ -188,8 +219,61 @@ while Exit == "No":
                     else:
                         non_int += 1
 
-                print('Avg:', a/count)
+                print('Avg:', a / count)
                 print(non_int, 'non-numeric values were not used')
+
+    # Count
+    elif User_Input.lower().startswith("len"):
+        j = []
+
+        for i in Databases[cd]:
+
+            if i[0] == User_Input[4:]:
+
+                for r in i:
+
+                    if r != '':
+                        j.append(r)
+
+                print("Length: ", len(j) - 1)
+                break
+
+    # Last
+
+    elif User_Input.lower().startswith("last"):
+
+        j = []
+
+        for i in Databases[cd]:
+
+            if i[0] == User_Input[5:]:
+
+                for r in i:
+
+                    if r != '':
+                        j.append(r)
+
+                print("Length: ", j[-1])
+                break
+
+
+    # First
+
+    elif User_Input.lower().startswith("first"):
+
+        j = []
+
+        for i in Databases[cd]:
+
+            if i[0] == User_Input[6:]:
+
+                for r in i:
+
+                    if r != '':
+                        j.append(r)
+
+                print("Length: ", j[1])
+                break
 
 
     # Exit
@@ -462,7 +546,7 @@ while Exit == "No":
                 Databases[a[-1]] = sheet
                 cd = a[-1]
 
-
+    # Search
     elif User_Input.lower().startswith("search all"):
 
         value = eval(User_Input[11:])
@@ -479,7 +563,28 @@ while Exit == "No":
                     if value == b:
                         search_result.append((sheet_name, col[0], a))
 
+        print("Sheet: ", search_result[0][0], ", Column: ", search_result[0][1], "Row No.:", search_result[0][2])
+
+    # Search CD
+    elif User_Input.lower().startswith("search cd"):
+
+        value = eval(User_Input[10:])
+
+        search_result = []
+
+        for col in Databases[cd]:
+            print(col)
+            a = 0
+
+            for b in col:
+
+                a += 1
+
+                if value == b:
+                    search_result.append((cd, col[0], a))
         print(search_result)
+        print("Sheet: ", search_result[0][0], ", Column: ", search_result[0][1], "Row No.:", search_result[0][2])
+
 
     # Saving the Databases in csv format
 
@@ -516,12 +621,14 @@ while Exit == "No":
     # Plot Colour
 
     if User_Input.lower().startswith("plot color"):
+
         if len(User_Input.split()) > 2:
             col = User_Input.split()[2]
 
     # Bar Plot
 
     elif User_Input.lower().startswith('bar plot'):
+
         a = User_Input.split()
 
         sheet1 = {}
@@ -554,13 +661,12 @@ while Exit == "No":
         plt.bar(xax, yax, color=col)
         plt.xlabel(a[2])
         plt.ylabel(a[3])
-
+        plt.show()
 
     # Horizontal Bar Plot
 
     elif User_Input.lower().startswith('barh plot'):
         a = User_Input.split()
-
         sheet1 = {}
 
         x = []
@@ -596,7 +702,159 @@ while Exit == "No":
 
         plt.show()
 
-        # Help
+
+    # Line Plot
+
+    elif User_Input.lower().startswith('line plot'):
+
+        a = User_Input.split()
+
+        sheet1 = {}
+
+        x = []
+        y = []
+
+        for i in Databases[cd]:
+            sheet1[i[0]] = i[1:]
+
+        if a[2] in sheet1:
+            x = x + sheet1[a[2]]
+            y = ''
+
+        # Function to plot the bar
+
+        xax = []
+        yax = []
+        non_int = 0
+
+        for k in range(0, len(x)):
+
+            if True:
+                xax.append(x[k])
+
+        print(non_int, "non-numerical values were not plotted")
+        plt.plot(xax, color=col)
+        plt.ylabel(a[2])
+
+        plt.show()
+
+    # Scatter
+
+    elif User_Input.lower().startswith('scatter plot'):
+
+        a = User_Input.split()
+
+        sheet1 = {}
+
+        x = []
+        y = []
+
+        for i in Databases[cd]:
+            sheet1[i[0]] = i[1:]
+
+        if a[2] and a[3] in sheet1:
+            x = x + sheet1[a[2]]
+            y = y + sheet1[a[3]]
+
+        # Function to plot the bar
+
+        xax = []
+        yax = []
+        non_int = 0
+
+        for k in range(0, len(y)):
+            if type(y[k]) == int or type(y[k]) == float:
+                yax.append(y[k])
+                xax.append(x[k])
+            else:
+                non_int += 1
+
+        print(non_int, "non-numerical values were not plotted")
+
+        plt.scatter(xax, yax, color=col)
+        plt.xlabel(a[2])
+        plt.ylabel(a[3])
+
+        plt.show()
+
+    # Histograms
+
+    elif User_Input.lower().startswith('hist plot'):
+
+        a = User_Input.split()
+
+        sheet1 = {}
+
+        x = []
+        y = []
+
+        for i in Databases[cd]:
+            sheet1[i[0]] = i[1:]
+
+        if a[2] in sheet1:
+            x = x + sheet1[a[2]]
+            y = ''
+
+        # Function to plot the bar
+
+        xax = []
+        yax = []
+        non_int = 0
+
+        for k in range(0, len(x)):
+
+            if type(x[k]) == int or type(x[k]):
+                yax.append(y)
+                xax.append(x[k])
+
+            else:
+                non_int += 1
+
+        print(non_int, "non-numerical values were not plotted")
+        print(xax)
+        plt.hist(xax, color=col)
+        plt.ylabel(a[2])
+
+        plt.show()
+
+    # Pie
+
+    elif User_Input.lower().startswith('pie plot'):
+
+        a = User_Input.split()
+
+        sheet1 = {}
+
+        x = []
+        y = []
+
+        for i in Databases[cd]:
+            sheet1[i[0]] = i[1:]
+
+        if a[2] and a[3] in sheet1:
+            x = x + sheet1[a[2]]
+            y = y + sheet1[a[3]]
+
+        # Function to plot the bar
+
+        xax = []
+        yax = []
+        non_int = 0
+
+        for k in range(0, len(y)):
+            if type(y[k]) == int or type(y[k]) == float:
+                yax.append(y[k])
+                xax.append(x[k])
+            else:
+                non_int += 1
+
+        print(non_int, "non-numerical values were not plotted")
+
+        plt.pie(yax, labels=xax)
+        plt.xlabel(a[3])
+        plt.show()
+
+    # Help
 
     elif User_Input.lower().startswith("help"):
 
@@ -643,5 +901,15 @@ while Exit == "No":
                     "textile"
                     "tsv"
                     ''')
+
+print('''
+     __  __        __            __               __     __   __      
+    / / / /__  ___/ /__ _______ / /____ ____  ___/ /__ _/ /  / /__    
+   / /_/ / _ \/ _  / -_) __(_-</ __/ _ `/ _ \/ _  / _ `/ _ \/ / -_)   
+   \____/_//_/\_,_/\__/_/ /___/\__/\_,_/_//_/\_,_/\_,_/_.__/_/\__/    
+  / // /__ __  _____   ___ _  / |/ (_)______   / _ \___ ___ __        
+ / _  / _ `/ |/ / -_) / _ `/ /    / / __/ -_) / // / _ `/ // /        
+/_//_/\_,_/|___/\__/  \_,_/ /_/|_/_/\__/\__/ /____/\_,_/\_, /         
+                                                       /___/   ''')
 
 time.sleep(50)
