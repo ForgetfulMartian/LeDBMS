@@ -16,51 +16,43 @@ else:
     os.chdir(Dir)
 
 Databases = {}
-cd: str = ""
-if input("Enter y to import databases from current directory:").lower() == "y":
 
-    try:
-        with open('sheet_names.txt', 'r') as sheet_file:
+if 1>0:
+    with open('sheet_names.txt', 'r') as sheet_file:
+        print("yes")
+        lines = [line for line in sheet_file]
+        for line in lines:
+            print(line)
+            try:
+                print("yes")
+                with open(line, 'r') as sheet_cache:
+                    hehe=[]
+                    for l in sheet_cache:
+                     
+                        b = []
+                        a = line.split(",")
+                     
+                        for j in a:
 
-            for line in sheet_file:
-                # noinspection PyBroadException
-                try:
+                            try:
+                                j = float(j)
+                            except:
+                                j = str(j)
+                                  
+                            b.append(j)
 
-                    with open(line.strip(), 'r') as sheet_cache:
+                        hehe.append(b)
+            except:
+                pass
 
-                        hehe = []
+            Databases[line.split(".")[0]] = hehe
 
-                        for l in sheet_cache:
-
-                            b = []
-                            a = l.strip().split(",")
-
-                            for j in a:
-
-                                try:
-                                    j = float(j)
-
-                                except:
-                                    j = str(j)
-
-                                b.append(j)
-
-                            hehe.append(b)
-                    Databases[line.split(".")[0]] = hehe
-                    print("imported successfully")
-                    cd = line.split(".")[0]
-
-                except:
-                    pass
-
-
-    except:
-        pass
+             
 
 Exit = "No"
 cls = "True"
 col = "b"
-
+cd: str = ""
 
 while Exit == "No":
 
@@ -443,11 +435,7 @@ while Exit == "No":
 
         data = Databases[cd]
         data2 = []
-        try:
-            style = User_Input.split()[1].lower()
-
-        except:
-            style = "github"
+        style = User_Input.split()[1].lower()
 
         for i in range(len(data[0])):
 
@@ -988,7 +976,7 @@ while Exit == "No":
         print(non_int, "non-numerical values were not plotted")
         print(xax)
         plt.hist(xax, color=col)
-        plt.xlabel(a[2])
+        plt.ylabel(a[2])
 
         plt.show()
 
@@ -1035,7 +1023,7 @@ while Exit == "No":
 
     elif User_Input.lower().startswith("help"):
 
-        if User_Input.startswith("help print"):
+        if User_Input[5:].lower() == "print":
             print("Use print command to display your datasheet in tabular form, in various different possible formats:")
             print("syntax:")
             print("print <format>")
@@ -1079,10 +1067,6 @@ while Exit == "No":
                     "tsv"
                     ''')
 
-        elif User_Input.startswith("help "):
-
-           print("")
-
     # Backup
 
     if True:
@@ -1091,54 +1075,27 @@ while Exit == "No":
 
             for sheet_name in Databases:
 
-                # it created backups for backups too
+                sheet_file.write(sheet_name + "_backup.csv" + '\n')
 
-                if sheet_name.split("_")[-1].lower() != "backup":
+                # create a new csv file for each sheet
 
-                    sheet_file.write(sheet_name + "_backup.csv" + '\n')
+                with open(sheet_name + "_backup" + '.csv', 'w') as f:
 
-                    # create a new csv file for each sheet
+                    for j in Databases[sheet_name]:
 
-                    with open(sheet_name + "_backup" + '.csv', 'w') as f:
+                        a = ''
+                        b = 0
+                        for k in j:
 
-                        for j in Databases[sheet_name]:
+                            if b == 0:
 
-                            a = ''
-                            b = 0
-                            for k in j:
+                                a = a + str(k)
 
-                                if b == 0:
+                            else:
 
-                                    a = a + str(k)
-
-                                else:
-
-                                    a = a + ',' + str(k)
-                                b += 1
-                            f.write(a + "\n")
-
-                else:
-                    sheet_file.write(sheet_name + ".csv" + '\n')
-
-                    # create a new csv file for each sheet
-
-                    with open(sheet_name + '.csv', 'w') as f:
-
-                        for j in Databases[sheet_name]:
-
-                            a = ''
-                            b = 0
-                            for k in j:
-
-                                if b == 0:
-
-                                    a = a + str(k)
-
-                                else:
-
-                                    a = a + ',' + str(k)
-                                b += 1
-                            f.write(a + "\n")
+                                a = a + ',' + str(k)
+                            b += 1
+                        f.write(a + "\n")
 
 print('''
      __  __        __            __               __     __   __      
